@@ -1,0 +1,38 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-15px); }
+}
+
+@keyframes slideRight {
+  from { transform: translateX(-10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); }
+  100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
+}
+
+@keyframes borderGlow {
+  0% { border-color: #333; }
+  50% { border-color: var(--neon-green); }
+  100% { border-color: #333; }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slideRight {
+  animation: slideRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.glow {
+  animation: glowPulse 3s infinite ease-in-out;
+}

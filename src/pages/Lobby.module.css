@@ -1,0 +1,112 @@
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+}
+
+.mainTitle {
+  font-size: 2.2rem;
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .header {
+    margin-bottom: 3.5rem;
+    padding-top: 2rem;
+  }
+  .mainTitle {
+    font-size: 3.5rem;
+  }
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-mono);
+  padding: 0.8rem 1.2rem;
+  background: rgba(255, 215, 0, 0.05);
+  border-left: 4px solid var(--neon-yellow);
+  font-size: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .progressInfo {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.resetBtn {
+  color: var(--neon-red);
+  font-size: 0.75rem;
+  border: 1px solid var(--neon-red);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.resetBtn:hover {
+  background: var(--neon-red);
+  color: white;
+  box-shadow: 0 0 10px var(--neon-red);
+}
+
+.footer {
+  text-align: center;
+  padding: 3rem 0;
+  border-top: 1px solid #222;
+  color: #444;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* SWEETALERT2 CYBER THEME OVERRIDES */
+.cyberSwalPopup {
+  border: 1px solid #333 !important;
+  border-top: 4px solid currentColor !important;
+  border-radius: 0 !important;
+  font-family: var(--font-mono) !important;
+  background: #0a0a0a !important;
+}
+
+.cyberSwalTitle {
+  font-size: 1.1rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+}
