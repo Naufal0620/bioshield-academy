@@ -1,40 +1,60 @@
-# 🌊 Alur Sistem (System Flow) - BioShield Academy
+# 🌊 Alur Sistem (System Flow) - BioShield Academy v2.0
 
-Dokumen ini menjelaskan alur pengguna (user journey) dan logika penyimpanan progres dalam aplikasi.
+Dokumen ini menjelaskan alur pengguna (user journey), logika penyimpanan progres, dan fitur-fitur teknis dalam BioShield Academy versi terbaru.
 
 ## 1. Alur Pengguna (User Journey)
 
 1.  **Entry Point (Lobby):**
-    *   Mahasiswa masuk ke halaman Lobby.
-    *   Sistem mengecek `localStorage` untuk melihat progres terakhir.
-    *   Hanya Modul 1 yang terbuka secara default. Modul 2 dan 3 terkunci (disabled).
+    *   Mahasiswa masuk ke halaman Lobby utama dengan tema *Cyber-Lab*.
+    *   Sistem mengecek `localStorage` (`bioshield_progress`) untuk memuat status progres terakhir.
+    *   Secara default, hanya **Modul 1** yang terbuka. Modul 2 hingga 6 terkunci hingga syarat kelulusan dipenuhi.
 
-2.  **Pembelajaran (Modul):**
-    *   Mahasiswa memilih modul yang sudah terbuka.
-    *   Membaca materi visual dan ringkas.
-    *   Di bagian bawah modul, terdapat tombol "Mulai Ujian" atau embed Game.
+2.  **Fase Pembelajaran (Material Review):**
+    *   Mahasiswa masuk ke modul yang telah terbuka (unlocked).
+    *   Membaca materi akademik yang telah diringkas (berdasarkan referensi Said Muhammad Naufal).
+    *   Untuk lanjut ke ujian, mahasiswa harus mengklik tombol **"START MODULE ASSESSMENT →"** di bagian akhir materi.
 
-3.  **Evaluasi (Mini-Game/Quiz):**
-    *   Mahasiswa memainkan game Wordwall yang di-embed.
-    *   Setelah menyelesaikan game, mahasiswa mengklik tombol "Selesaikan Modul & Klaim Sertifikat/Lulus".
-    *   *Catatan:* Karena Wordwall di-embed via iframe, kita menggunakan tombol manual di bawah iframe untuk men-trigger status "Lulus".
+3.  **Fase Evaluasi (Final Assessment):**
+    *   Mahasiswa diarahkan ke halaman kuis terpisah (`/modul/:id/quiz`).
+    *   Menjawab serangkaian pertanyaan pilihan ganda dengan feedback instan (Correct/Incorrect berwarna).
+    *   Sistem menghitung akurasi jawaban secara real-time.
 
-4.  **Unlock Level:**
-    *   Setelah tombol "Selesai" diklik, sistem mengupdate state `completedLevels` di `ProgressContext`.
-    *   Data disimpan ke `localStorage`.
-    *   Mahasiswa diarahkan kembali ke Lobby, dan modul berikutnya sekarang sudah terbuka.
+4.  **Logika Kelulusan & Unlocking:**
+    *   **Syarat Lulus:** Mahasiswa harus menjawab minimal **70%** soal dengan benar.
+    *   Jika Lulus: Muncul tombol **"COMPLETE MODULE & PROCEED"**. Mengklik tombol ini akan mengupdate state global, menyimpan ke `localStorage`, dan mengarahkan kembali ke Lobby di mana modul berikutnya sekarang sudah terbuka.
+    *   Jika Gagal: Mahasiswa diminta untuk melakukan **"REBOOT ASSESSMENT"** (mengulang kuis) atau kembali membaca materi.
 
-## 2. Logika Progres (Persistence)
+5.  **Prosedur Purge Data:**
+    *   Terdapat tombol **"PURGE_DATA"** di Lobby untuk mereset seluruh progres.
+    *   Prosedur ini dilindungi oleh modal konfirmasi **SweetAlert2** untuk mencegah penghapusan tidak sengaja.
 
-Progres disimpan dalam satu key di `localStorage`:
+## 2. Fitur Khusus (Special Protocols)
+
+### 🔐 Cheat Code: Bypass Access
+*   Mahasiswa dapat mengetikkan kata kunci **`unlockall`** secara langsung di halaman Lobby.
+*   Sistem menggunakan *Keyboard Listener* untuk mendeteksi kode tersebut.
+*   Jika berhasil, seluruh 6 modul akan terbuka secara instan dan ditandai sebagai "Completed" melalui overlay konfirmasi khusus.
+
+### 🤖 SweetAlert2 Integration
+*   Seluruh dialog sistem (Alert, Konfirmasi, Sukses) menggunakan library **SweetAlert2** untuk menjamin stabilitas posisi (viewport centering) dan estetika premium.
+
+## 3. Logika Progres (Persistence)
+
+Progres disimpan secara lokal pada browser pengguna:
 *   **Key:** `bioshield_progress`
-*   **Value:** `{"completedLevels": [1, 2]}`
+*   **Data Structure:** `{"completedLevels": [1, 2, 3, 4, 5, 6]}`
 
-| Level | Modul | Syarat Unlock |
+### Matriks Kurikulum:
+| Level | Judul Modul | Syarat Unlock |
 | :--- | :--- | :--- |
-| 1 | The Microbe Monsters | Terbuka Otomatis |
-| 2 | The Armor | Level 1 Selesai |
-| 3 | The Laws | Level 2 Selesai |
+| 1 | Foundations of Bioregulation | Terbuka Otomatis |
+| 2 | Biosafety Concepts & Philosophy | Level 1 Selesai |
+| 3 | The Microbe Monsters (BSL 1-4) | Level 2 Selesai |
+| 4 | Containment & PPE Armor | Level 3 Selesai |
+| 5 | Regulatory Frameworks (PP 21/2005) | Level 4 Selesai |
+| 6 | The Future: AI & CRISPR Risks | Level 5 Selesai |
 
-## 3. State Management
-Aplikasi menggunakan **React Context API** untuk menyediakan state global `progress` ke seluruh komponen tanpa perlu passing props secara manual.
+## 4. Arsitektur State
+*   **State Provider:** `ProgressProvider` (Context API).
+*   **Global Actions:** `completeLevel(id)`, `isLevelUnlocked(id)`, `resetProgress()`, `unlockAllLevels()`.
+*   **Animations:** Menggunakan `animations.css` dengan *cubic-bezier* transisi untuk pengalaman UI yang halus dan organik.
